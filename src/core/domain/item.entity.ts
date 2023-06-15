@@ -1,8 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Category } from './category.entity';
 import { OrderItem } from './order-item.entity';
 
-@Entity()
+@Entity('item')
 export class Item {
 	@PrimaryGeneratedColumn()
 	id: number;
