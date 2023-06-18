@@ -14,7 +14,8 @@ import { CREATE_ORDER_SERVICE, GET_ORDER_SERVICE, LIST_PROCESSING_ORDER_SERVICE 
 import { IListProcessingOrdersService } from '../../../core/applications/interfaces/list-processing-orders.service.interface';
 import { Response } from 'express';
 import { ICreateOrderService } from '../../../core/applications/interfaces/create-order.service.interface';
-import { CreateOrderDto } from '../dtos/create-order.dto';
+import { CreateOrderBodyDto } from '../dtos/create-order.dto';
+import { OrderWithoutItemsError } from '../../../core/errors/create-order.dto';
 
 @Controller('order')
 @ApiTags('Order')
@@ -58,12 +59,16 @@ export class OrderController {
 	}
 
 	@Post()
-	public async create(@Res() res: Response, @Body() body: CreateOrderDto): Promise<void> {
+	public async create(@Res() res: Response, @Body() body: CreateOrderBodyDto): Promise<void> {
 		try {
 			const order = await this.createOrderService.create(body);
 			res.status(201).send({ order });
 		} catch (error) {
-			res.status(500).send(error.message);
+			if (error instanceof OrderWithoutItemsError) {
+				res.status(400).send(error.message);
+			} else {
+				res.status(500).send(error.message);
+			}
 		}
 	}
 }

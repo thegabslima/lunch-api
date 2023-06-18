@@ -6,15 +6,18 @@ import { buildGetOrderService } from './factories/get-order.service.factory';
 import { buildListProcessingOrdersService } from './factories/list-processing-orders.service.factory';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Order } from '../../core/domain/order.entity';
+import { buildCreateOrderService } from './factories/create-order.service.factory';
+import { ItemModule } from '../item/item.module';
+import { GET_ITEM_SERVICE } from '../item/item.symbols';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([Order])],
+	imports: [TypeOrmModule.forFeature([Order]), ItemModule],
 	providers: [
 		OrderRepository,
 		{
 			provide: CREATE_ORDER_SERVICE,
-			inject: [OrderRepository],
-			useFactory: buildGetOrderService,
+			inject: [OrderRepository, GET_ITEM_SERVICE],
+			useFactory: buildCreateOrderService,
 		},
 		{
 			provide: GET_ORDER_SERVICE,
