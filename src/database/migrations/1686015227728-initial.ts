@@ -59,7 +59,8 @@ export class Initial1686015227728 implements MigrationInterface {
 				{
 					name: "category_id",
 					type: "int",
-					isNullable: false
+					isNullable: false,
+					unsigned: true
 				}
 			],
 			foreignKeys: [{
