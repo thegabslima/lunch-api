@@ -1,6 +1,13 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+	Column,
+	Entity,
+	JoinColumn,
+	ManyToOne,
+	PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Item } from './item.entity';
 import { Order } from './order.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('order_has_item')
 export class OrderItem {
@@ -8,9 +15,11 @@ export class OrderItem {
 	id: number;
 
 	@Column()
+	@ApiProperty()
 	price: number;
 
 	@Column()
+	@ApiProperty()
 	quantity: number;
 
 	@ManyToOne(() => Item, (item) => item.orderItems)
