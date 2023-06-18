@@ -11,11 +11,12 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ApiTags, ApiBody } from '@nestjs/swagger';
-
 import { Item } from 'src/core/domain/item.entity';
 import { GET_ITEM_SERVICE, PERSISTENCE_ITEM_SERVICE } from '../item.symbols';
 import { IGetItemService } from 'src/core/applications/interfaces/Item/get-item.service.interface';
 import { IPersistenceItemService } from 'src/core/applications/interfaces/Item/persistence-item.service.interface';
+import { CreateItemDto } from '../dtos/create-item.dto';
+import { UpdateItemDto } from '../dtos/update-item.dto';
 
 @ApiTags('Item')
 @Controller('item')
@@ -104,10 +105,10 @@ export class ItemController {
 	@ApiBody({ type: Item })
 	public async createItem(
 		@Res() res: Response,
-		@Body() item: Item
+		@Body() item: CreateItemDto
 	): Promise<void> {
 		try {
-			const createItem = this.persistenceItemService.createItem(item);
+			const createItem = await this.persistenceItemService.createItem(item);
 			if (!createItem) {
 				res.status(404).send('Items not found');
 			} else {
@@ -122,10 +123,10 @@ export class ItemController {
 	public async updateItem(
 		@Res() res: Response,
 		@Param('id', ParseIntPipe) id: number,
-		@Body() item: Item
+		@Body() item: UpdateItemDto
 	): Promise<void> {
 		try {
-			const createItem = this.persistenceItemService.updateItem(id, item);
+			const createItem = await this.persistenceItemService.updateItem(id, item);
 			if (!createItem) {
 				res.status(404).send('Items not found');
 			} else {

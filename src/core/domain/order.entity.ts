@@ -34,6 +34,9 @@ export class Order {
 	@ManyToOne(() => Client, (item) => item.orders)
 	client: Client;
 
-	@OneToMany(() => OrderItem, (item) => item.order)
+	@OneToMany(() => OrderItem, (item) => item.order, {
+		cascade: true,
+		persistence: true,
+	})
 	orderItems?: OrderItem[];
 }

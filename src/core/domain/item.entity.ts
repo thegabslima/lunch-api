@@ -27,9 +27,9 @@ export class Item {
 	@ApiProperty()
 	description?: string;
 
-	@Column()
+	@Column({ name: 'category_id' })
 	@ApiProperty()
-	category_id?: number;
+	category_id: number;
 
 	@ManyToOne(() => Category)
 	@JoinColumn({ name: 'category_id' })

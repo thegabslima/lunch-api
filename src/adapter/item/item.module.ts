@@ -23,5 +23,6 @@ import { GET_ITEM_SERVICE, PERSISTENCE_ITEM_SERVICE } from './item.symbols';
 		},
 	],
 	controllers: [ItemController],
+	exports: [GET_ITEM_SERVICE],
 })
 export class ItemModule {}
