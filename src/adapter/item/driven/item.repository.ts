@@ -1,15 +1,25 @@
+import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IItemRepositoryPort } from 'src/core/applications/ports/item-repository.port';
+
 import { Item } from 'src/core/domain/item.entity';
 import { TypeItem } from 'src/core/value-objects/type-item';
-import { Repository } from 'typeorm';
+import { IItemRepositoryPort } from 'src/core/applications/ports/item-repository.port';
 
 @Injectable()
 export class ItemRepository implements IItemRepositoryPort {
 	constructor(
-		@InjectRepository(Item) private itemRepository: Repository<Item>
+		@InjectRepository(Item)
+		private itemRepository: Repository<Item>
 	) {}
+
+	createItem(item: Item) {
+		return this.itemRepository.create(item);
+	}
+
+	updateItem(id: number, item: Item) {
+		return this.itemRepository.update(id, item);
+	}
 
 	getItemBySnack(): Promise<Item[]> {
 		return this.itemRepository.find({
@@ -18,7 +28,6 @@ export class ItemRepository implements IItemRepositoryPort {
 					id: TypeItem.SNACK,
 				},
 			},
-			relations: ['name', 'description', 'price', 'category_id'],
 		});
 	}
 
@@ -29,7 +38,6 @@ export class ItemRepository implements IItemRepositoryPort {
 					id: TypeItem.FOLLOW_UP,
 				},
 			},
-			relations: ['name', 'description', 'price', 'category_id'],
 		});
 	}
 
@@ -40,7 +48,6 @@ export class ItemRepository implements IItemRepositoryPort {
 					id: TypeItem.DRINK,
 				},
 			},
-			relations: ['name', 'description', 'price', 'category_id'],
 		});
 	}
 
@@ -51,7 +58,6 @@ export class ItemRepository implements IItemRepositoryPort {
 					id: TypeItem.DESSERT,
 				},
 			},
-			relations: ['name', 'description', 'price', 'category_id'],
 		});
 	}
 
@@ -60,7 +66,6 @@ export class ItemRepository implements IItemRepositoryPort {
 			where: {
 				id,
 			},
-			relations: ['name', 'description', 'price', 'category_id'],
 		});
 	}
 }

@@ -6,4 +6,7 @@ export interface IItemRepositoryPort {
 	getItemByFollowUp(): Promise<Item[]>;
 	getItemByDrink(): Promise<Item[]>;
 	getItemByDessert(): Promise<Item[]>;
+
+	createItem(item: Item);
+	updateItem(idItem: number, item: Item);
 }

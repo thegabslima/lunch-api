@@ -1,9 +1,9 @@
-import { IGetItemService } from 'src/core/applications/interfaces/Item/get-item.service.interface';
+import { IPersistenceItemService } from 'src/core/applications/interfaces/Item/persistence-item.service.interface';
 import { IItemRepositoryPort } from 'src/core/applications/ports/item-repository.port';
 import { ItemService } from 'src/core/applications/services/item.service';
 
-export const buildGetItemService = (
+export const buildPersistenceItemService = (
 	repository: IItemRepositoryPort
-): IGetItemService => {
+): IPersistenceItemService => {
 	return new ItemService(repository);
 };
