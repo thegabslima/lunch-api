@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { OrderController } from './driver/order.controller';
-import { GET_ORDER_SERVICE, LIST_PROCESSING_ORDER_SERVICE } from './order.symbols';
+import { CREATE_ORDER_SERVICE, GET_ORDER_SERVICE, LIST_PROCESSING_ORDER_SERVICE } from './order.symbols';
 import { OrderRepository } from './driven/order.repository';
 import { buildGetOrderService } from './factories/get-order.service.factory';
 import { buildListProcessingOrdersService } from './factories/list-processing-orders.service.factory';
@@ -11,6 +11,11 @@ import { Order } from '../../core/domain/order.entity';
 	imports: [TypeOrmModule.forFeature([Order])],
 	providers: [
 		OrderRepository,
+		{
+			provide: CREATE_ORDER_SERVICE,
+			inject: [OrderRepository],
+			useFactory: buildGetOrderService,
+		},
 		{
 			provide: GET_ORDER_SERVICE,
 			inject: [OrderRepository],
