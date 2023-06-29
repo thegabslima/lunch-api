@@ -1,6 +1,6 @@
 import { Order } from "../../domain/order.entity";
 import { CreateOrderDto } from "../../dtos/create-order.dto";
-import { OrderWithoutItemsError } from "../../errors/create-order.dto";
+import { OrderWithoutItemsError } from "../../errors/order-without-items.error";
 import { OrderStatus } from "../../value-objects/order-status";
 import { IGetItemService } from "../interfaces/Item/get-item.service.interface";
 import { ICreateOrderService } from "../interfaces/create-order.service.interface";

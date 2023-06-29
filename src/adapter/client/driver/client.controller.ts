@@ -11,10 +11,12 @@ import {
 import { IGetClientService } from '../../../core/applications/interfaces/get-client.service.interface';
 import { GET_CLIENT_SERVICE, CREATE_CLIENT_SERVICE } from '../client.symbols';
 import { Response } from 'express';
-import ICreateClientDTO from '../dtos/ICreateClientDTO';
+import CreateClientDto from '../dtos/create-client.dto';
 import { ICreateClientService } from 'src/core/applications/interfaces/create-client.service.interface';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('client')
+@ApiTags('Client')
 export class ClientController {
 	constructor(
 		@Inject(GET_CLIENT_SERVICE) private readonly getClientService: IGetClientService,
@@ -36,7 +38,7 @@ export class ClientController {
 	}
 
 	@Post()
-	public async createClient(@Res() res: Response, @Body() createClientDTO: ICreateClientDTO) {
+	public async createClient(@Res() res: Response, @Body() createClientDTO: CreateClientDto) {
 		try {
 			const client = await this.createClientService.createClient(createClientDTO)
 			if (!client) {

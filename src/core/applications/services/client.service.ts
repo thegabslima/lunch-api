@@ -1,4 +1,4 @@
-import ICreateClientDTO from "src/adapter/client/dtos/ICreateClientDTO";
+import CreateClientDto from "src/adapter/client/dtos/create-client.dto";
 import { Client } from "../../domain/client.entity";
 import { IGetClientService } from "../interfaces/get-client.service.interface";
 import { IClientRepositoryPort } from "../ports/client-repository.port";
@@ -11,9 +11,9 @@ export class ClientService implements IGetClientService, ICreateClientService {
 	findByDocument(document: string): Promise<Client> {
 		return this.clientRepository.findByDocument(document);
 	}
-	createClient({ document, email, name }: ICreateClientDTO): Promise<Client> {
+	createClient({ document, email, name }: CreateClientDto): Promise<Client> {
 		return this.clientRepository.createClient({ document, email, name })
 	}
 
-	
+
 }

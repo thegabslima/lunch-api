@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { Client } from '../../../core/domain/client.entity';
 import { IClientRepositoryPort } from '../../../core/applications/ports/client-repository.port';
-import ICreateClientDTO from '../dtos/ICreateClientDTO';
+import CreateClientDto from '../dtos/create-client.dto';
 
 @Injectable()
 export class ClientRepository implements IClientRepositoryPort {
@@ -16,7 +16,7 @@ export class ClientRepository implements IClientRepositoryPort {
 			},
 		});
 	}
-	async createClient(clientData: ICreateClientDTO): Promise<Client> {
+	async createClient(clientData: CreateClientDto): Promise<Client> {
 		const client = this.clientRepository.create(clientData);
 		await this.clientRepository.save(client)
 		return client;

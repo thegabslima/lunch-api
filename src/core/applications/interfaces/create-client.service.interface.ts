@@ -1,6 +1,6 @@
 import { Client } from "../../domain/client.entity";
-import ICreateClientDTO from "src/adapter/client/dtos/ICreateClientDTO";
+import CreateClientDto from "src/adapter/client/dtos/create-client.dto";
 
 export interface ICreateClientService {
-	createClient({ document, email, name }: ICreateClientDTO): Promise<Client>;
+	createClient({ document, email, name }: CreateClientDto): Promise<Client>;
 }
