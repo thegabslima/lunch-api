@@ -3,10 +3,14 @@ import { InvalidOrderStatusError } from "../../errors/invalid-order-status.error
 import { OrderNotFoundError } from "../../errors/order-not-found.error";
 import { OrderStatus } from "../../value-objects/order-status";
 import { IUpdateOrderStatusService } from "../interfaces/update-order-status.service.interface";
+import { INotifyOrderPort } from "../ports/notify-order.port";
 import { IOrderRepositoryPort } from "../ports/order-repository.port";
 
 export class UpdateOrderStatusService implements IUpdateOrderStatusService {
-	constructor(private readonly orderRepository: IOrderRepositoryPort) {}
+	constructor(
+		private readonly orderRepository: IOrderRepositoryPort,
+		private readonly notifyOrder: INotifyOrderPort,
+	) {}
 
 	private async validateOrderAndStatus(id: number, ...status: OrderStatus[]): Promise<void> {
 		const order = await this.orderRepository.findById(id);
@@ -19,14 +23,14 @@ export class UpdateOrderStatusService implements IUpdateOrderStatusService {
 	async updateStatusProcessing(id: number): Promise<Order> {
 		await this.validateOrderAndStatus(id, OrderStatus.RECEIVED);
 		await this.orderRepository.updateStatus(id, OrderStatus.PROCESSING)
-		// TODO: Notificação para o cliente
+		this.notifyOrder.emitOrderIsProcessing(id);
 		return this.orderRepository.findById(id);
 	}
 
 	async updateStatusReady(id: number): Promise<Order> {
 		await this.validateOrderAndStatus(id, OrderStatus.PROCESSING);
 		await this.orderRepository.updateStatus(id, OrderStatus.READY)
-		// TODO: Notificação para o cliente
+		this.notifyOrder.emitOrderIsReady(id);
 		return this.orderRepository.findById(id);
 	}
 

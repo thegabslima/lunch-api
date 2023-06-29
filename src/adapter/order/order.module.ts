@@ -10,14 +10,18 @@ import { buildCreateOrderService } from './factories/create-order.service.factor
 import { ItemModule } from '../item/item.module';
 import { GET_ITEM_SERVICE } from '../item/item.symbols';
 import { buildUpdateOrderStatusService } from './factories/update-order-status.service.factory';
+import { FakeNotifyOrderService } from '../notification/driven/fake-notify-order.service';
+import { NotificationModule } from '../notification/notification.module';
+import { CheckoutModule } from '../checkout/checkout.module';
+import { FakeCheckoutService } from '../checkout/driven/fake-checkout.service';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([Order]), ItemModule],
+	imports: [TypeOrmModule.forFeature([Order]), ItemModule, NotificationModule, CheckoutModule],
 	providers: [
 		OrderRepository,
 		{
 			provide: CREATE_ORDER_SERVICE,
-			inject: [OrderRepository, GET_ITEM_SERVICE],
+			inject: [OrderRepository, GET_ITEM_SERVICE, FakeCheckoutService],
 			useFactory: buildCreateOrderService,
 		},
 		{
@@ -32,7 +36,7 @@ import { buildUpdateOrderStatusService } from './factories/update-order-status.s
 		},
 		{
 			provide: UPDATE_ORDER_STATUS_SERVICE,
-			inject: [OrderRepository],
+			inject: [OrderRepository, FakeNotifyOrderService],
 			useFactory: buildUpdateOrderStatusService,
 		},
 	],
