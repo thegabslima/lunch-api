@@ -1,21 +1,30 @@
 import {
+	Body,
 	Controller,
 	Get,
 	Inject,
 	Param,
 	ParseIntPipe,
+	Post,
 	Res,
 } from '@nestjs/common';
 import { IGetOrderService } from '../../../core/applications/interfaces/get-order.service.interface';
-import { GET_ORDER_SERVICE, LIST_PROCESSING_ORDER_SERVICE } from '../order.symbols';
+import { ApiTags } from '@nestjs/swagger';
+import { CREATE_ORDER_SERVICE, GET_ORDER_SERVICE, LIST_PROCESSING_ORDER_SERVICE } from '../order.symbols';
 import { IListProcessingOrdersService } from '../../../core/applications/interfaces/list-processing-orders.service.interface';
 import { Response } from 'express';
+import { ICreateOrderService } from '../../../core/applications/interfaces/create-order.service.interface';
+import { CreateOrderBodyDto } from '../dtos/create-order.dto';
+import { OrderWithoutItemsError } from '../../../core/errors/create-order.dto';
 
 @Controller('order')
+@ApiTags('Order')
 export class OrderController {
 	constructor(
+		@Inject(CREATE_ORDER_SERVICE) private readonly createOrderService: ICreateOrderService,
 		@Inject(GET_ORDER_SERVICE) private readonly getOrderService: IGetOrderService,
-		@Inject(LIST_PROCESSING_ORDER_SERVICE) private readonly listProcessingOrdersService: IListProcessingOrdersService,
+		@Inject(LIST_PROCESSING_ORDER_SERVICE)
+		private readonly listProcessingOrdersService: IListProcessingOrdersService
 	) {}
 
 	@Get('list-processing-orders')
@@ -33,7 +42,10 @@ export class OrderController {
 	}
 
 	@Get(':id')
-	public async findById(@Res() res: Response, @Param('id', ParseIntPipe) id: number): Promise<void> {
+	public async findById(
+		@Res() res: Response,
+		@Param('id', ParseIntPipe) id: number
+	): Promise<void> {
 		try {
 			const order = await this.getOrderService.findById(id);
 			if (!order) {
@@ -43,6 +55,20 @@ export class OrderController {
 			}
 		} catch (error) {
 			res.status(500).send(error.message);
+		}
+	}
+
+	@Post()
+	public async create(@Res() res: Response, @Body() body: CreateOrderBodyDto): Promise<void> {
+		try {
+			const order = await this.createOrderService.create(body);
+			res.status(201).send({ order });
+		} catch (error) {
+			if (error instanceof OrderWithoutItemsError) {
+				res.status(400).send(error.message);
+			} else {
+				res.status(500).send(error.message);
+			}
 		}
 	}
 }
