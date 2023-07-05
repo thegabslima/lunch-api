@@ -103,6 +103,6 @@ Exemplo de dados para cadastrar um cliente com identificação:
 {
   "document": "0000000000",
   "name": "FIAP",
-  "email": "aluno
+  "email": "aluno"
   }
 ```
