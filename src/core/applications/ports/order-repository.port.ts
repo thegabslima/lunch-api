@@ -7,4 +7,5 @@ export interface IOrderRepositoryPort {
 	listProcessingOrders(): Promise<Order[]>;
 	create(orderToCreate: OrderToCreateDto): Promise<Order>;
 	updateStatus(id: number, status: OrderStatus): Promise<boolean>;
+	updateFinishedAt(id: number): Promise<boolean>;
 }

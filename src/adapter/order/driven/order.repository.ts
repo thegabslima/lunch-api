@@ -10,6 +10,18 @@ import { OrderToCreateDto } from '../../../core/dtos/order-to-create.dto';
 export class OrderRepository implements IOrderRepositoryPort {
 	constructor(@InjectRepository(Order) private orderRepository: Repository<Order>) {
 	}
+	async updateFinishedAt(id: number): Promise<boolean> {
+		const exists = this.orderRepository.exist({
+			where: {
+				id
+			}
+		});
+		if (!exists) return false;
+		await this.orderRepository.update(id, {
+			finishedAt: new Date(),
+		})
+		return true;
+	}
 	async updateStatus(id: number, status: OrderStatus): Promise<boolean> {
 		const exists = this.orderRepository.exist({
 			where: {

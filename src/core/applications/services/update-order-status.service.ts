@@ -37,6 +37,7 @@ export class UpdateOrderStatusService implements IUpdateOrderStatusService {
 	async updateStatusFinished(id: number): Promise<Order> {
 		await this.validateOrderAndStatus(id, OrderStatus.READY);
 		await this.orderRepository.updateStatus(id, OrderStatus.FINISHED)
+		await this.orderRepository.updateFinishedAt(id);
 		return this.orderRepository.findById(id);
 	}
 }
