@@ -1,4 +1,4 @@
-FROM  node:16.20-alpine3.16 as LUNCH-API-MASTER
+FROM --platform=linux/amd64 node:16.20-alpine3.16 as LUNCH-API-MASTER
 
 WORKDIR /usr/app
 COPY package.json /usr/app/
