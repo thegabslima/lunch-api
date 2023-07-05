@@ -191,3 +191,67 @@ Altera o status do pedido para "Finalizado"
 Endpoint: `PUT /order/{id}/status/finished`
 
 Lembre-se de substituir `{id}` pelo ID real do pedido.
+
+
+# Fluxo de Pedidos em Restaurante/Lanchonete
+
+Este é um guia passo a passo para criar um fluxo de pedidos em um restaurante/lanchonete utilizando a API disponibilizada. Siga os seguintes passos na ordem indicada: cadastrar produto(s), cadastrar cliente(s) e cadastrar pedido(s).
+
+## Cadastrar produto(s)
+
+Para cadastrar um produto, faça uma requisição POST para o endpoint `/item`.
+
+Exemplo de como preencher os valores para cadastrar um produto:
+
+```json
+{
+  "name": "Coca-Cola",
+  "price": 7,
+  "description": "Refrigerante de 2L",
+  "category_id": 3
+}
+```
+
+## Cadastrar cliente(s)
+
+Para cadastrar um cliente, faça uma requisição POST para o endpoint `/client`.
+
+Exemplo de valor com identificação do cliente:
+
+```json
+{
+  "document": "0000000000",
+  "name": "FIAP",
+  "email": "aluno@fiap.com.br"
+}
+```
+
+Exemplo de valor sem identificação do cliente:
+
+```json
+{ }
+```
+
+## Cadastrar pedido(s)
+
+Para cadastrar um pedido, faça uma requisição POST para o endpoint `/order`.
+
+Exemplo de como preencher os valores para cadastrar um pedido:
+
+```json
+{
+  "itemsIds": [
+    {
+      "id": 1,
+      "quantity": 2
+    }
+  ],
+  "clientId": 1
+}
+```
+
+## Consultar pedido(s) e status
+
+Para consultar os pedidos em andamento e seus respectivos status, faça uma requisição GET para o endpoint `/list-processing-orders`.
+
+Essas rotas permitem que você cadastre produtos, clientes e pedidos, além de consultar os pedidos e seus respectivos status.
