@@ -162,13 +162,13 @@ Endpoint:`POST /order`
 
 Para realizar consultas após o cadastro de um pedido, existem rotas disponíveis para busca por todos os pedidos e seus respectivos status, bem como por ID do pedido.
 
-### Por ID do pedido
+Por ID do pedido
 
 Endpoint: `GET /order/{id}`
 
 Lembre-se de substituir `{id}` pelo ID real do pedido.
 
-### Buscar todos os pedidos
+Buscar todos os pedidos
 
 Endpoint: `GET /order/list-processing-orders`
 
@@ -178,15 +178,15 @@ Após o pedido ser realizado, ele será cadastrado com o status inicial de "rece
 
 À medida que o pedido avança na produção, o status será atualizado para refletir o progresso. Isso pode ser feito utilizando as seguintes rotas:
 
-### Altera o status do pedido para "Em Produção"
+Altera o status do pedido para "Em Produção"
 
 Endpoint: `PUT /order/{id}/status/processing`
 
-### Altera o status do pedido para "Pronto"
+Altera o status do pedido para "Pronto"
 
 Endpoint: `PUT /order/{id}/status/ready`
 
-### Altera o status do pedido para "Finalizado"
+Altera o status do pedido para "Finalizado"
 
 Endpoint: `PUT /order/{id}/status/finished`
 
