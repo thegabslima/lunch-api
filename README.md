@@ -28,8 +28,8 @@ Crie um arquivo chamado `.env` na raiz do projeto e adicione as seguintes inform
 ```
 DB_TYPE="mysql"
 DB_PORT=3306
-DB_USERNAME="admin"
-DB_PASSWORD="12345678"
+DB_USERNAME=""
+DB_PASSWORD=""
 DB_DATABASE="DB_LUNCH-API"
 ```
 
@@ -94,15 +94,118 @@ Substitua `{id}` pelo ID real do produto ao consultar por ID do Produto.
 
 #### Cadastrar
 
-Para cadastrar um cliente, utilize o endpoint `/client` com o método POST. O cliente pode optar por não se identificar.
+Para cadastrar o(s) cliente(s) no Swagger, siga os passos abaixo:
+
+1. Procure o endpoint `/client`.
+2. Utilize o método POST.
+3. O cliente pode optar por não se identificar.
+
+Cada produto deve conter os seguintes campos:
+
+- `document`: string (documento do cliente)
+- `name`: string (nome do cliente)
+- `email`: string (e-mail do cliente)
 
 Endpoint: `POST /client`
 
-Exemplo de dados para cadastrar um cliente com identificação:
+Exemplo de valor com identificação do cliente:
 ```json
 {
   "document": "0000000000",
   "name": "FIAP",
-  "email": "aluno"
-  }
+  "email": "aluno@fiap.com.br"
+}
 ```
+
+Exemplo de valor sem identificação do cliente:
+```json
+{ }
+```
+
+#### Consultar
+
+Utilize a rota abaixo para realizar consultas específicas de acordo com o documento do cliente.
+
+Endpoint: `GET /client/{document}`
+
+Lembre-se de substituir `{document}` pelo documento real do cliente.
+
+
+
+### Pedido(s)
+
+#### Cadastrar
+
+Para cadastrar o(s) pedido(s) no Swagger, siga os passos abaixo:
+
+1. Procure o endpoint `/order`.
+2. Utilize o método POST.
+
+Cada pedido deve conter os seguintes campos:
+
+- `itemsIds`: array (Lista de produtos)
+- `id`: number (id do produto)
+- `quantity`: number (quantidade do produto)
+- `clientId`: number (ID do cliente)
+
+##### Endpoint:
+
+```
+POST /order
+```
+
+ Exemplo de valor para cadastrar um pedido:
+
+```json
+{
+  "itemsIds": [
+    {
+      "id": 0,
+      "quantity": 0
+    }
+  ],
+  "clientId": 0
+}
+```
+
+#### Consultar
+
+Para realizar consultas após o cadastro de um pedido, existem rotas disponíveis para busca por todos os pedidos e seus respectivos status, bem como por ID do pedido.
+
+### Por ID do pedido
+
+Endpoint:
+
+```
+GET /order/{id}
+```
+
+Lembre-se de substituir `{id}` pelo ID real do pedido.
+
+### Buscar todos os pedidos
+
+Endpoint:
+
+```
+GET /order/list-processing-orders
+```
+
+#### Atualizar
+
+Após o pedido ser realizado, ele será cadastrado com o status inicial de "recebido". Esse status será atualizado ao longo do processo de produção, variando entre os seguintes valores: "Em Produção", "Pronto" e "Finalizado".
+
+À medida que o pedido avança na produção, o status será atualizado para refletir o progresso. Isso pode ser feito utilizando as seguintes rotas:
+
+### Altera o status do pedido para "Em Produção"
+
+Endpoint: `PUT /order/{id}/status/processing`
+
+### Altera o status do pedido para "Pronto"
+
+Endpoint: `PUT /order/{id}/status/ready`
+
+### Altera o status do pedido para "Finalizado"
+
+Endpoint: `PUT /order/{id}/status/finished`
+
+Lembre-se de substituir `{id}` pelo ID real do pedido.
