@@ -94,11 +94,8 @@ Substitua `{id}` pelo ID real do produto ao consultar por ID do Produto.
 
 #### Cadastrar
 
-Para cadastrar o(s) cliente(s) no Swagger, siga os passos abaixo:
-
-1. Procure o endpoint `/client`.
-2. Utilize o método POST.
-3. O cliente pode optar por não se identificar.
+Para cadastrar o(s) cliente(s) no Swagger, utilize o endpoint `/client` com método POST.
+O cliente pode optar por não se identificar.
 
 Cada produto deve conter os seguintes campos:
 
@@ -136,10 +133,7 @@ Lembre-se de substituir `{document}` pelo documento real do cliente.
 
 #### Cadastrar
 
-Para cadastrar o(s) pedido(s) no Swagger, siga os passos abaixo:
-
-1. Procure o endpoint `/order`.
-2. Utilize o método POST.
+Para cadastrar o(s) pedido(s) no Swagger, utilize o endpoint `/order` utilize o endpoint POST.
 
 Cada pedido deve conter os seguintes campos:
 
@@ -148,11 +142,7 @@ Cada pedido deve conter os seguintes campos:
 - `quantity`: number (quantidade do produto)
 - `clientId`: number (ID do cliente)
 
-##### Endpoint:
-
-```
-POST /order
-```
+Endpoint:`POST /order`
 
  Exemplo de valor para cadastrar um pedido:
 
@@ -174,21 +164,13 @@ Para realizar consultas após o cadastro de um pedido, existem rotas disponívei
 
 ### Por ID do pedido
 
-Endpoint:
-
-```
-GET /order/{id}
-```
+Endpoint: `GET /order/{id}`
 
 Lembre-se de substituir `{id}` pelo ID real do pedido.
 
 ### Buscar todos os pedidos
 
-Endpoint:
-
-```
-GET /order/list-processing-orders
-```
+Endpoint: `GET /order/list-processing-orders`
 
 #### Atualizar
 
